@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ToDoAPI.Bll.Features.Tasks.Commands.CreateTask;
 using ToDoAPI.Bll.Features.Tasks.Commands.UpdateTask;
 using ToDoAPI.Bll.Features.Tasks.Queries.GetAllTasks;
+using ToDoAPI.Bll.Features.Tasks.Queries.GetIncomingTasks;
 using ToDoAPI.Bll.Features.Tasks.Queries.GetTaskById;
 
 namespace ToDoAPI.Controllers
@@ -34,25 +35,44 @@ namespace ToDoAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateTaskCommand command)
         {
-            var taskId = await _mediator.Send(command);
-            return CreatedAtAction(nameof(GetById), new { id = taskId }, null);
+            var createdTaskId = await _mediator.Send(command);
+            return CreatedAtAction(nameof(GetById), new { id = createdTaskId }, null);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var task = await _mediator.Send(new GetTaskByIdQuery(id));
-            if (task == null) return NotFound();
+
+            if (task is null)
+                return NotFound();
+
             return Ok(task);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, UpdateTaskCommand command)
         {
-            if (id != command.Id) return BadRequest();
+            if (id != command.Id)
+                return BadRequest();
+
             var result = await _mediator.Send(command);
-            if (!result) return NotFound();
+
+            if (!result)
+                return NotFound();
+
             return NoContent();
+        }
+
+        [HttpGet("GetIncomingTasks")]
+        public async Task<IActionResult> GetIncomingTasks()
+        {
+            var result = await _mediator.Send(new GetIncomingTasksQuery());
+
+            if (result is null)
+                return NoContent();
+
+            return Ok(result);
         }
     }
 }
