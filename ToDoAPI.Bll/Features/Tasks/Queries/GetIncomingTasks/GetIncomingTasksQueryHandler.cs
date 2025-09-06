@@ -1,12 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ToDoAPI.Bll.Features.Tasks.DTOs;
-using ToDoAPI.Bll.Features.Tasks.Queries.GetAllTasks;
 using ToDoAPI.Dal.UnitOfWork;
 
 namespace ToDoAPI.Bll.Features.Tasks.Queries.GetIncomingTasks

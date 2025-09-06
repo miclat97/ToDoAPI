@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ToDoAPI.Dal.Data;
+﻿using ToDoAPI.Dal.Data;
 using ToDoAPI.Dal.Entities;
 using ToDoAPI.Dal.Repositories;
 
