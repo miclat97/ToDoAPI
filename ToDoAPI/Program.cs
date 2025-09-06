@@ -15,7 +15,11 @@ namespace ToDoAPI
             // Register controllers and swagger auto generation
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            //builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new() { Title = "ToDoAPI", Version = "v1" });
+            });
 
             // Configure MySQL database and register DbContext
             builder.Services.AddDbContext<TodoDbContext>(options =>
