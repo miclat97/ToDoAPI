@@ -18,7 +18,7 @@ namespace ToDoAPI.Dal.UnitOfWork
         }
 
         // Register Task repository in UnitOfWork
-        public IBaseRepository<TaskEntity> Tasks => 
+        public IBaseRepository<TaskEntity> Tasks =>
             _tasks ??= new BaseRepository<TaskEntity>(_context);
 
         public async Task<int> CommitAsync()

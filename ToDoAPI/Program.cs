@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using ToDoAPI.Dal.Data;
-using ToDoAPI.Dal.UnitOfWork;
 using ToDoAPI.Bll.Features.Tasks.Commands.CreateTask;
 using ToDoAPI.Bll.Features.Tasks.Mappings;
+using ToDoAPI.Dal.Data;
+using ToDoAPI.Dal.UnitOfWork;
 
 namespace ToDoAPI
 {

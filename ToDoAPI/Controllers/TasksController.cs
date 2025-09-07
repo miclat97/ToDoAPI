@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using ToDoAPI.Bll.Features.Tasks.Commands.CreateTask;
 using ToDoAPI.Bll.Features.Tasks.Commands.UpdateTask;
 using ToDoAPI.Bll.Features.Tasks.Queries.GetAllTasks;
@@ -28,11 +29,18 @@ namespace ToDoAPI.Controllers
         /// <summary>
         /// Get all tasks in database
         /// </summary>
-        /// <returns>200 - List of tasks</returns>
+        /// <returns>
+        /// 200 - List of tasks
+        /// 204 - If no any tasks
+        /// </returns>
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var result = await _mediator.Send(new GetAllTasksQuery());
+
+            if (!result.Any())
+                return NoContent();
+
             return Ok(result);
         }
 
@@ -52,8 +60,11 @@ namespace ToDoAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateTaskCommand command)
         {
-            var createdTaskId = await _mediator.Send(command);
-            return CreatedAtAction(nameof(GetById), new { id = createdTaskId }, null);
+            if (command is null)
+                return BadRequest();
+
+            var result = await _mediator.Send(command);
+            return CreatedAtAction(nameof(GetById), new { id = result }, null);
         }
 
         /// <summary>
@@ -66,12 +77,12 @@ namespace ToDoAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var task = await _mediator.Send(new GetTaskByIdQuery(id));
+            var result = await _mediator.Send(new GetTaskByIdQuery(id));
 
-            if (task is null)
+            if (result is null)
                 return NotFound();
 
-            return Ok(task);
+            return Ok(result);
         }
 
         /// <summary>
@@ -99,7 +110,7 @@ namespace ToDoAPI.Controllers
             var result = await _mediator.Send(command);
 
             if (!result)
-                return NotFound();
+                return BadRequest();
 
             return NoContent();
         }
@@ -107,14 +118,16 @@ namespace ToDoAPI.Controllers
         /// <summary>
         /// Get tasks which user wants to complete in next 7 days
         /// </summary>
-        /// <returns>200 - if there are tasks which are expiring in next 7 days
-        /// 204 - if no tasks are expiring in next 7 days</returns>
+        /// <returns>
+        /// 200 - if there are tasks which are expiring in next 7 days
+        /// 204 - if no tasks are expiring in next 7 days
+        /// </returns>
         [HttpGet("GetIncomingTasks")]
         public async Task<IActionResult> GetIncomingTasks()
         {
             var result = await _mediator.Send(new GetIncomingTasksQuery());
 
-            if (result is null)
+            if (!result.Any())
                 return NoContent();
 
             return Ok(result);
