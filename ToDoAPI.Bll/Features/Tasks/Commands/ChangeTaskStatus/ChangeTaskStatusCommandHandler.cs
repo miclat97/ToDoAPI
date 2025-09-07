@@ -21,7 +21,7 @@ namespace ToDoAPI.Bll.Features.Tasks.Commands.ChangeTaskStatus
 
             task.IsCompleted = request.IsCompleted;
 
-            if (task.IsCompleted)
+            if (request.IsCompleted) // if task is set as completed, set it as 100% complete
                 task.PercentageComplete = 100;
             else
                 task.PercentageComplete = 0;

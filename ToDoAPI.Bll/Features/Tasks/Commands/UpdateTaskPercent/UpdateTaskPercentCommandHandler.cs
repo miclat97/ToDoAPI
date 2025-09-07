@@ -21,9 +21,9 @@ namespace ToDoAPI.Bll.Features.Tasks.Commands.UpdateTaskPercent
 
             task.PercentageComplete = request.PercentageComplete;
 
-            if (task.PercentageComplete == 100)
+            if (request.PercentageComplete == 100) // if task is done in 100%, mark it as completed
                 task.IsCompleted = true;
-            else
+            else if (request.PercentageComplete < 100) // and if is less than 100%, mark it as not completed
                 task.IsCompleted = false;
 
             _unitOfWork.Tasks.Update(task);
