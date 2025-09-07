@@ -1,8 +1,10 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+using ToDoAPI.Bll.Features.Tasks.Commands.ChangeTaskStatus;
 using ToDoAPI.Bll.Features.Tasks.Commands.CreateTask;
 using ToDoAPI.Bll.Features.Tasks.Commands.UpdateTask;
+using ToDoAPI.Bll.Features.Tasks.Commands.UpdateTaskPercent;
+using ToDoAPI.Bll.Features.Tasks.DTOs;
 using ToDoAPI.Bll.Features.Tasks.Queries.GetAllTasks;
 using ToDoAPI.Bll.Features.Tasks.Queries.GetIncomingTasks;
 using ToDoAPI.Bll.Features.Tasks.Queries.GetTaskById;
@@ -131,6 +133,45 @@ namespace ToDoAPI.Controllers
                 return NoContent();
 
             return Ok(result);
+        }
+
+        /// <summary>
+        /// Update only task percentage completion
+        /// </summary>
+        /// <param name="id">Task id</param>
+        /// <param name="dto">
+        /// int PercentageComplete - Percentage of task completion - required, from 0 to 100
+        /// </param>
+        /// <returns>204</returns>
+        [HttpPatch("{id}/percent")]
+        public async Task<IActionResult> UpdatePercent(int id, [FromBody] UpdateTaskPercentDto dto)
+        {
+            var result = await _mediator.Send(new UpdateTaskPercentCommand(id, dto.PercentageComplete));
+
+            if (!result)
+                return NotFound();
+
+            return NoContent();
+        }
+
+
+        /// <summary>
+        /// Change only task status - mark as completed or uncompleted
+        /// </summary>
+        /// <param name="id">Task id</param>
+        /// <param name="dto">
+        /// bool IsCompleted - Determines if task is completed - required
+        /// </param>
+        /// <returns>204</returns>
+        [HttpPatch("{id}/status")]
+        public async Task<IActionResult> UpdateStatus(int id, [FromBody] ChangeTaskStatusDto dto)
+        {
+            var result = await _mediator.Send(new ChangeTaskStatusCommand(id, dto.IsCompleted));
+
+            if (!result)
+                return NotFound();
+
+            return NoContent();
         }
     }
 }
