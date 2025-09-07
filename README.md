@@ -10,7 +10,7 @@ Unit tests in xUnit
 
 
 
-##### Main design patterns:
+### Main design patterns:
 
 
 
@@ -21,13 +21,58 @@ Unit tests in xUnit
 
 
 
+### To run in docker container using docker-compose:
+
+```
+docker-compose up -d
+```
+
+Swagger will be at: http://localhost:8080/swagger/index.html
 
 
-Database structure:
+
+### API Endpoints:
+
+* **GET**: /api/Tasks - get all tasks
+
+* **GET**: /api/Tasks/{Id} - get task by Id
+
+* **GET**: /api/Tasks/GetIncomingTasks - get tasks with expiry date within next 7 days
+
+* **PUT**: /api/Tasks/{Id} - Update task, Id - task id and in body send json like this example:
+
+```
+{
+  "id": 1,
+  "title": "string",
+  "description": "string",
+  "isCompleted": true,
+  "percentageComplete": 100,
+  "createdAt": "2025-09-07T18:39:49.194Z",
+  "expiryDate": "2025-09-07T18:39:49.194Z"
+}
+```
+
+* **POST**: /api/Tasks - Create new task, json example:
+
+```
+{
+  "title": "string",
+  "isCompleted": false,
+  "description": "string",
+  "percentageComplete": 0,
+  "createdAt": "2025-09-07T18:38:25.783Z",
+  "expiryDate": "2025-09-07T18:38:25.783Z"
+}
+```
 
 
 
-ToDoAPI.Dal.Entities.TaskEntity
+
+### Database structure:
+
+
+##### ToDoAPI.Dal.Entities.TaskEntity
 
 ```
 public class TaskEntity
@@ -47,4 +92,3 @@ public class TaskEntity
    public DateTime? ExpiryDate { get; set; }
 }
 ```
-
