@@ -17,11 +17,15 @@ namespace ToDoAPI.Dal.Entities
     {
         [Key]
         public int Id { get; set; }
+        [MaxLength(200)]
+        [Required]
         public required string Title { get; set; }
+        [Required]
         public bool IsCompleted { get; set; } = false;
         public string? Description { get; set; }
         [Range(0, 100)]
         public int PercentageComplete { get; set; } = 0;
+        [Required]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? ExpiryDate { get; set; }
     }

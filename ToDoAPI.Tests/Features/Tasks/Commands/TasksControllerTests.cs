@@ -119,7 +119,7 @@ namespace ToDoAPI.Tests.Features.Tasks.Commands
         }
 
         [Fact]
-        public async Task Update_ShouldReturnNotFoundResult_WhenTaskNotFound()
+        public async Task Update_ShouldReturnBadRequestResult_WhenTaskNotFound()
         {
             // Arrange
             var command = new UpdateTaskCommand { Id = 1, Title = "Updated Task" };
@@ -127,11 +127,11 @@ namespace ToDoAPI.Tests.Features.Tasks.Commands
                          .ReturnsAsync(false);
 
             // Act
-            var result = await _controller.Update(1, command) as NotFoundResult;
+            var result = await _controller.Update(1, command) as BadRequestResult;
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(404, result.StatusCode);
+            Assert.Equal(400, result.StatusCode);
         }
     }
 }
