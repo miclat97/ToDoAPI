@@ -42,12 +42,15 @@ namespace ToDoAPI
 
             var app = builder.Build();
 
-            // Configure swagger if project is compiled in development mode
-            if (app.Environment.IsDevelopment())
+            // Create database in docker container with proper structure
+            using (var scope = app.Services.CreateScope())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                var dbContext = scope.ServiceProvider.GetRequiredService<TodoDbContext>();
+                dbContext.Database.Migrate();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseHttpsRedirection();
             app.UseAuthorization();
