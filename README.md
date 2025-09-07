@@ -31,42 +31,70 @@ Swagger will be at: http://localhost:8080/swagger/index.html
 
 
 
-### API Endpoints:
-
-* **GET**: /api/Tasks - get all tasks
-
-* **GET**: /api/Tasks/{Id} - get task by Id
-
-* **GET**: /api/Tasks/GetIncomingTasks - get tasks with expiry date within next 7 days
-
-* **PUT**: /api/Tasks/{Id} - Update task, Id - task id and in body send json like this example:
-
-```
-{
-  "id": 1,
-  "title": "string",
-  "description": "string",
-  "isCompleted": true,
-  "percentageComplete": 100,
-  "createdAt": "2025-09-07T18:39:49.194Z",
-  "expiryDate": "2025-09-07T18:39:49.194Z"
-}
-```
-
-* **POST**: /api/Tasks - Create new task, json example:
-
-```
-{
-  "title": "string",
-  "isCompleted": false,
-  "description": "string",
-  "percentageComplete": 0,
-  "createdAt": "2025-09-07T18:38:25.783Z",
-  "expiryDate": "2025-09-07T18:38:25.783Z"
-}
-```
+## API Endpoints:
 
 
+> **GET** /api/Tasks - get all tasks
+
+
+
+> **GET** /api/Tasks/{Id} - get task by Id
+
+
+
+> **GET** /api/Tasks/GetIncomingTasks - get tasks with expiry date within next 7 days
+
+
+
+> **POST** /api/Tasks - Create new task, json example:
+> ```
+> {
+>   "title": "string",
+>   "isCompleted": false,
+>   "description": "string",
+>   "percentageComplete": 0,
+>   "createdAt": "2025-09-07T18:38:25.783Z",
+>   "expiryDate": "2025-09-07T18:38:25.783Z"
+> }
+> ```
+
+
+
+> **PUT** /api/Tasks/{Id} - Update task with Id
+> 
+> ```
+> {
+>   "id": 1,
+>   "title": "string",
+>   "description": "string",
+>   "isCompleted": true,
+>   "percentageComplete": 100,
+>   "createdAt": "2025-09-07T18:39:49.194Z",
+>   "expiryDate": "2025-09-07T18:39:49.194Z"
+> }
+> ```
+
+
+
+> **PATCH** /api/Tasks/{id}/percent - Update task percent complete
+> 
+> When set to 100, task is also mark as done, if set to less than 100 - task is marked as undone
+> ```
+> {
+>   "percentageComplete": 0
+> }
+> ```
+
+
+
+> **PATCH** /api/Tasks/{id}/status - Mark task as done or not
+> When isCompleted set to true, percentage is set to 100, when false - percentage is set to 0
+> 
+> ```
+> {
+>   "isCompleted": false
+> }
+> ```
 
 
 ### Database structure:
